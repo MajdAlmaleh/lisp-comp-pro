@@ -1,28 +1,57 @@
 lexer grammar LispLexer;
 
 
-LPAREN      : '(' ;                         
-RPAREN      : ')' ;    
-
-DEFUN       : 'defun' ;                     
-LAMBDA      : 'lambda' ;                
-IF          : 'if' ;                     
-LET         : 'let' ;                   
-SETQ        : 'setq' ;                         
-
-AND         : 'and' ;
-OR          : 'or' ;
-NOT         : 'not' ;
-TRUE        : 't';
-FALSE       : 'nil';
-
-                     
-NUMBER      : [0-9]+ ('.' [0-9]+)? ;          
-SYMBOL      : [a-zA-Z+\-*/=?!><]+ ;             
-STRING      : '"' (~["\\] | '\\' .)* '"' ; 
+LPAREN       : '(' ;
+RPAREN       : ')' ;
 
 
+DEFUN        : 'defun' ;
+LAMBDA       : 'lambda' ;
+IF           : 'if' ;
+LET          : 'let' ;
+SETQ         : 'setq' ;
+COND         : 'cond' ;
+PROGN        : 'progn' ;
+QUOTE        : 'quote' ;
+UNQUOTE      : 'unquote' ;
+BACKQUOTE    : '`' ;
+WHILE        : 'while' ;
+FOR          : 'for' ;
+RETURN       : 'return' ;
+BREAK        : 'break' ;
+CONTINUE     : 'continue' ;
 
-COMMENT     : ';' ~[\r\n]* -> skip ;      
 
-WS          : [ \t\r\n]+ -> skip ;
+
+
+AND          : 'and' ;
+OR           : 'or' ;
+NOT          : 'not' ;
+
+
+TRUE         : 't' ;
+FALSE        : 'nil' ;
+
+
+INT          : [0-9]+ ;
+FLOAT        : [0-9]+ '.' [0-9]+ ;
+HEX          : '0x' [0-9a-fA-F]+ ;
+OCTAL        : '0o' [0-7]+ ;
+BINARY       : '0b' [01]+ ;
+
+
+COMPLEX      : (INT | FLOAT) ( '+' | '-' )? (INT | FLOAT)? 'i' ;
+
+
+SYMBOL       : [a-zA-Z+\-*/=?!><_]+ (':' [a-zA-Z+\-*/=?!><_]+)* ;
+KEYWORD      : ':' [a-zA-Z+\-*/=?!><_]+ ;
+STRING       : '"' (~["\\] | '\\' .)* '"' ;            
+
+
+COMMENT            : ';' ~[\r\n]* -> skip ;
+MULTILINE_COMMENT  : '#|' .*? '|#' -> skip ;
+
+
+WS           : [ \t\r\n]+ -> skip ;
+
+
