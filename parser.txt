@@ -1,0 +1,35 @@
+parser grammar LispParser;
+
+options { tokenVocab = LispLexer; }
+
+program     : expression* EOF ;             
+
+expression  : list
+            | SYMBOL
+            | NUMBER
+            | STRING
+            | defun_expr
+            | lambda_expr
+            | if_expr
+            | let_expr
+            | setq_expr
+            | logical_expr
+            | TRUE
+            | FALSE
+            ;
+
+list        : LPAREN expression* RPAREN ;    
+
+defun_expr  : LPAREN DEFUN SYMBOL param_list expression+ RPAREN ;  
+
+lambda_expr : LPAREN LAMBDA param_list expression+ RPAREN ;         
+
+if_expr     : LPAREN IF expression expression expression? RPAREN ;  
+
+let_expr    : LPAREN LET LPAREN (LPAREN SYMBOL expression RPAREN)+ RPAREN expression+ RPAREN ;
+
+setq_expr   : LPAREN SETQ SYMBOL expression RPAREN ;
+
+logical_expr : LPAREN (AND | OR | NOT) expression+ RPAREN ;
+
+param_list  : LPAREN SYMBOL* RPAREN ;
